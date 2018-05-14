@@ -5,7 +5,7 @@ fread_fwf<-function(file, schema) {
   end_col<-sc[,3] ##Posicion inicial
   start_end <- cbind(start_col, end_col) 
   
-  datos<-  fread(file=file,     
+  dt<-  fread(file=file,     
                    colClasses = "character", 
                    sep = "\n", 
                    header = FALSE)
@@ -13,9 +13,9 @@ fread_fwf<-function(file, schema) {
  extrae<-function(x) {
     apply(start_end, 1, function(y) stri_sub(x, y[1], y[2]))}
    
- datos[, (variables) := data.table((lapply(datos, extrae))$V1)] [,V1:=NULL]
+ dt[, (variables) := data.table((lapply(dt, extrae))$V1)] [,V1:=NULL]
  
  rm(extrae)
  
- return(datos)
+ return(dt)
 }
